@@ -3,10 +3,11 @@ import { createPortal } from 'react-dom';
 import css from './Modal.module.css';
 const modalRoot = document.querySelector('#modal-root');
 
+
 function Modal({ closeModal, children }) {
   useEffect(() => {
-    const handleCloseModal = e => {
-      if (e.code === 'Escape') {
+    const handleCloseModal = (evt) => {
+      if (evt.code === 'Escape') {
         closeModal();
       }
     };
@@ -18,8 +19,8 @@ function Modal({ closeModal, children }) {
     };
   });
 
-  const clickOverlay = e => {
-    if (e.target === e.currentTarget) {
+  const clickOverlay = (evt) => {
+    if (evt.target === evt.currentTarget) {
       closeModal();
     }
   };

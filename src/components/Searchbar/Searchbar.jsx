@@ -1,52 +1,44 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import css from './Searchbar.module.css';
 import { CiSearch } from 'react-icons/ci';
-class Searchbar extends Component {
-  state = {
-    query: '',
+
+function Searchbar({ onSubmit }) {
+  const [query, setQuery] = useState('');
+
+  const handlechange = e => {
+    setQuery(e.currentTarget.value);
   };
 
-  handlechange = e => {
-    this.setState({ query: e.currentTarget.value });
-  };
-
-  reset = () => {
-    this.setState({ query: '' });
-  };
-
-  onSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.query.trim() === '') {
+    if (query.trim() === '') {
       return alert('Введите слово для поиска');
     }
 
-    this.props.onSubmit(this.state.query.trim());
-    this.reset();
+    onSubmit(query.trim());
+    setQuery('');
   };
 
-  render() {
-    return (
-      <header className={css.Searchbar}>
-        <form className={css.SearchForm} onSubmit={this.onSubmit}>
-          <button type="submit" className={css.SearchFormButton}>
-            {' '}
-            <CiSearch className={css.icon} />
-          </button>
+  return (
+    <header className={css.Searchbar}>
+      <form className={css.SearchForm} onSubmit={handleSubmit}>
+        <button type="submit" className={css.SearchFormButton}>
+          <CiSearch className={css.icon} />
+        </button>
 
-          <input
-            className={css.SearchFormInput}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.query}
-            onChange={this.handlechange}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className={css.SearchFormInput}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={query}
+          onChange={handlechange}
+        />
+      </form>
+    </header>
+  );
 }
 
 export default Searchbar;
